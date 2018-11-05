@@ -1,0 +1,53 @@
+ Model Predictive Control Project Rubric Points 
+
+1) Student describes their model in detail. This includes the state, actuators and update equations.
+
+The model implemented  is the same as the udacity class kinematic model with the state variables:
+x and y -> vehicle position coordinates.
+ψ -> the vehicle orientation.
+v -> the vehicle velocity.
+
+The control inputs  include:
+
+psi (orientation angle error).  
+cross - track(distance from the track waypoints error).
+The way points is the system control reference.
+
+
+The control outputs include:
+
+δ -> the steering angle signal.
+a -> the acceleration signal.
+
+
+The update equations as control algorithm predicts the actual state variables and errors based on 
+his  previous values. Other variables is used for prediction:
+
+dt ->elapsed duration between timesteps.
+ 
+
+The model equations solves recursively the predicted state model values, the model equations are shown in ModelPredictiveControleqs.png 
+
+################################################################################################################################################################################################
+
+2) Student discusses the reasoning behind the chosen N (timestep length) and dt (elapsed duration between timesteps) values. Additionally the student details the previous values tried.
+
+If dt (elapsed duration between timesteps) decreases  the  predictions accuracy increases but performance may be affected. Timestep length (N) determines the number of timesteps that model predicts ahead , also N*dt is the time range for  solver to adjust  the optimal trajectory  I use a starting time horizont  of 10 seconds obtained through trial and error, this is N=10 and dt=0.1. Other values of dt =0.01 with N=10 was proved but the tracking error increases fast and vehicle shows an oscillation around the reference until he leaves the road , on the other hand if dt=1 with N=10 the error slowly increases  until he leaves the road with a damped behavior. with N=15 and dt=0.1 the velocity increases but the cross track error increases in curves , the final values were selected as N=7 and dt=0.1 in this case the error decreases and the average speed was 49.4  mph , also the settling time decreases fast. 
+
+################################################################################################################################################################################################
+
+3) A polynomial is fitted to waypoints.
+
+Optimal trajectory is related with a third-degree polynomial fit to the given waypoints reference. The waypoints was converted to vehicle reference frame as preprocess step  this is  x - y coordinates and orientation angle are maped respect frame of vehicle in main.cpp lines 108 to 122. 
+
+
+################################################################################################################################################################################################
+
+4) The student implements Model Predictive Control that handles a 100 millisecond latency. Student provides details on how they deal with latency.
+
+Assuming lag value of 0.1 sec,the vehicle respond worst to steering actuator in  the init and final of curves. Since the compensation and  commands are applied a timestep later, the equations of model can deal with latency by  consider the actuation (δ , a) at time t - 2 (Mind the Line lesson) in MPC.cpp lines 105 and 106. 
+
+
+################################################################################################################################################################################################
+
+

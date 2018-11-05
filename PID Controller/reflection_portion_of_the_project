@@ -1,0 +1,29 @@
+Reflection
+
+1. Describe the effect each of the P, I, D components had in your implementation:
+
+The proportional action compensates for the steering error of the vehicle by exerting an inverse action with respect to the deviation of the center of the road. The value of the gain determines the intensity of the compensation, so very low values will not have the ability to correct the error, however very high values will generate oscillations around the reference value.
+
+
+The derivative action avoids the strong oscillations that can occur around the reference. The derivative gain is able to "brake" before reaching the reference, this softens the proportional action 
+The value of the derivative gain has the capacity to dampen the dynamics of the transient response.
+
+
+The integral action reduces the value of the stationary error, this is to maintain the vehicle in the center of the road, it is most perceptible in curve sections of the road. 
+Also shows the integral action at the beginning of the simulation where for a higher value the stable state takes more time
+
+
+
+2. Visual aids are encouraged, i.e. record of a small video of the car in the simulator and describe what each component is set to:
+
+
+The video of simulator called "pidcontrolvideo.flv" shows the control performance, first with proportional action only ( with low and high value) , the second video shows the effect of derivative gain (P-D controller)  in the damped dinamics and finally the addition of integral action to follow closely the center of the road
+
+
+
+3. Describe how the final hyperparameters were chosen:
+
+A trial error metodology  is chossen to tuning the PID control parameters. First the proportional gain is tuned in such a way that the action is sufficient to stay on the road in the corners.
+The overshoot caused by the proportional gain is mitigated by adjusting the derivative gain. Finally the integral gain is adjusted to maintain the steady-state error close to 0.
+The final gain values are : Kp= 0.17  , Ki= 0.005  , Kd=  1.5 , the same values works for throttle values up to 0.5
+
